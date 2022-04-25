@@ -25,6 +25,11 @@ bool addanyware(node<int>*&head,int item);
 bool search(node<int>*head,int item);
 void concat(node <int>*&head,node<int>*p);
 void modify(node<int>*&head,int x,int y);
+bool deltfirst(node<int>*&head);
+bool deltlast(node<int>*&head);
+bool deltitem(node<int>*&head,int item);
+bool deltitem2(node<int>*&head,int item);
+void delteven(node<int>*&head);
 main()
 {
 	node<int>*head=new node<int>(5);
@@ -41,13 +46,27 @@ main()
 	print(head);
 	addlast(head,35);
 	print(head);
-	addanyware(head,40);*/
+	addanyware(head,40);
 	print(head);
 	print(p);
 	cout<<search(head,5)<<endl;
 	concat(head,p);
 	print(head);
-	modify(head,5,69);
+	modify(head,5,69);*/
+	print(head);
+	deltfirst(head);
+	print(head);
+	deltlast(head);
+	print(head);
+	deltitem(head,25);
+	print(head);
+	deltitem2(head,10);
+	print(head);
+	fill(head,9);
+	addfirst(head,2);
+	print(head);
+	cout<<"before delete even\n";
+	delteven(head);
 	print(head);
 	cout<<"test"<<endl;
 }
@@ -164,6 +183,99 @@ void modify(node<int>*&head,int x,int y)
 		}
 		p=p->next;
 	}
+		
+}
+bool deltfirst(node<int>*&head)
+{
+	if(head==0)
+	return 0;
+	node<int>*temp=head;
+	head=head->next;
+	delete temp;
+	return 1;
+}
+bool deltlast(node<int>*&head)
+{
+	if(head==0)
+	return 0;
+	node<int>*prev,*follow;
+	prev=follow=head;
+	while(follow->next!=0)
+	{
+		prev=follow;
+		follow=follow->next;
+	}
+	if(prev==follow)
+	head=0;
+	else
+	prev->next=follow->next;
+	delete follow;
+	return 1;
+}
+bool deltitem(node<int>*&head,int item)
+{
+	if(head==0)
+	return 0;
+	node<int>*prev,*follow;
+	prev=follow=head;
+	while(follow->next!=0)
+	{
+		if(follow->data==item)
+		{
+			if(follow==prev)
+			head=head->next;
+			prev->next=follow->next;
+			delete follow;
+			return 1;
+		}
+		prev=follow;
+		follow=follow->next;
+	}
+	if(follow->data==item)
+	{
+		prev->next=0;
+		delete follow;
+		return 1;
+	}
+	return 0;
+}
+bool deltitem2(node<int>*&head,int item) // another solution 
+{
+	node<int>*prev,*follow;
+	prev=follow=head;
+	while(follow!=0 && follow->data !=item)
+	{
+		prev=follow;
+		follow=follow->next;
+	}
+	if(follow==0)// item not found //
+	return 0;
+	if(follow==prev)// If the item's location is at the first of the linked list
+	head=head->next;
+	else
+	prev->next=follow->next; 
 	
-	
+	delete follow;
+	return 1;
+}
+void delteven(node<int>*&head)// same on odd //
+{
+	node<int>*prev,*follow;
+	prev=follow=head;
+	while(follow!=0)
+	{
+
+		if(follow->data %2==0) 
+		{
+			if(prev==follow)
+			head=head->next;
+			else
+			prev->next=follow->next;
+			delete follow;
+			follow=prev;
+			
+		}
+		prev=follow;
+		follow=follow->next;
+	}
 }
